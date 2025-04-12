@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'mark_attendance.dart';
 class TeacherDashboard extends StatelessWidget {
   final ValueNotifier<bool> _dark = ValueNotifier<bool>(true);
   final ValueNotifier<double> _widthFactor = ValueNotifier<double>(1.0);
@@ -179,25 +179,37 @@ class NoOverflowLayout extends StatelessWidget {
               ),
             ),
           ),
-
           // Mark Attendance Card
-          _buildAttendanceCard(
-            context: context,
-            title: 'Mark Attendance',
-            maxWidth: maxWidth,
-            scaleFactor: scaleFactor,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MarkAttendance()),
+              );
+            },
+            child: _buildAttendanceCard(
+              context: context,
+              title: 'Mark Attendance',
+              maxWidth: maxWidth,
+              scaleFactor: scaleFactor,
+            ),
           ),
 
           SizedBox(height: 40 * scaleFactor),
-
-          // Edit Attendance Card
-          _buildAttendanceCard(
-            context: context,
-            title: 'Edit Attendance',
-            maxWidth: maxWidth,
-            scaleFactor: scaleFactor,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MarkAttendance()), // Assuming same screen
+              );
+            },
+            child: _buildAttendanceCard(
+              context: context,
+              title: 'Edit Attendance',
+              maxWidth: maxWidth,
+              scaleFactor: scaleFactor,
+            ),
           ),
-
           // Add space at bottom
           SizedBox(height: 60 * scaleFactor),
         ],
