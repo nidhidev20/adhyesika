@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'mark_attendance.dart';
+
+import 'attendance/mark_attendance.dart';
+
 class TeacherDashboard extends StatelessWidget {
   final ValueNotifier<bool> _dark = ValueNotifier<bool>(true);
   final ValueNotifier<double> _widthFactor = ValueNotifier<double>(1.0);
@@ -48,7 +50,9 @@ class TeacherDashboard extends StatelessWidget {
                 body: SingleChildScrollView(
                   child: Center(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * _widthFactor.value,
+                      width:
+                          MediaQuery.of(context).size.width *
+                          _widthFactor.value,
                       child: NoOverflowLayout(),
                     ),
                   ),
@@ -72,7 +76,9 @@ class NoOverflowLayout extends StatelessWidget {
         return Container(
           width: maxWidth,
           // Set minimum height but allow scrolling
-          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
+          ),
           color: Colors.white,
           child: Stack(
             children: [
@@ -200,7 +206,9 @@ class NoOverflowLayout extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MarkAttendance()), // Assuming same screen
+                MaterialPageRoute(
+                  builder: (context) => MarkAttendance(),
+                ), // Assuming same screen
               );
             },
             child: _buildAttendanceCard(

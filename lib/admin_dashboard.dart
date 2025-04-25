@@ -1,289 +1,301 @@
 import 'package:flutter/material.dart';
+import 'package:fluttering/admin/forms.dart';
+import 'package:fluttering/attendance/mark_attendance.dart';
 
-class AdminDashboard extends StatelessWidget {
+class FlutterApp extends StatelessWidget {
+  const FlutterApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(home: AdminDashboard());
+  }
+}
+
+class AdminDashboard extends StatefulWidget {
+  const AdminDashboard({Key? key}) : super(key: key);
+
+  @override
+  _AdminDashboardState createState() => _AdminDashboardState();
+}
+
+class _AdminDashboardState extends State<AdminDashboard> {
   final ValueNotifier<bool> _dark = ValueNotifier<bool>(true);
   final ValueNotifier<double> _widthFactor = ValueNotifier<double>(1.0);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: ValueListenableBuilder<bool>(
-            valueListenable: _dark,
-            builder: (context, color, child) {
-              return ValueListenableBuilder<double>(
-                valueListenable: _widthFactor,
-                builder: (context, factor, child) {
-                  return Scaffold(
-                      backgroundColor:
-                      _dark.value ? Colors.black : Colors.white,
-                      appBar: AppBar(
-                        actions: [
-                          Switch(
-                            value: _dark.value,
-                            onChanged: (value) {
-                              _dark.value = value;
-                            },
-                          ),
-                          DropdownButton<double>(
-                            value: _widthFactor.value,
-                            onChanged: (value) {
-                              _widthFactor.value = value!;
-                            },
-                            items: [
-                              DropdownMenuItem<double>(
-                                value: 0.5,
-                                child: Text('Size: 50%'),
-                              ),
-                              DropdownMenuItem<double>(
-                                value: 0.75,
-                                child: Text('Size: 75%'),
-                              ),
-                              DropdownMenuItem<double>(
-                                value: 1.0,
-                                child: Text('Size: 100%'),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      body: Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width *
-                                _widthFactor.value,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ResponsiveAdminDashboard(),
-                                ],
-                              ),
-                            ),
-                          )));
-                },
-              );
-            }));
-  }
-}
-
-class ResponsiveAdminDashboard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Get the screen size for responsive calculations
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
-
-    // Calculate aspect ratio based on original design (430x932)
-    final designAspectRatio = 430 / 932;
-    final currentAspectRatio = screenWidth / screenHeight;
-
-    // Use layout builder to get constraints
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final maxWidth = constraints.maxWidth;
-
-        // Scale factors
-        final scaleFactor = maxWidth / 430; // Based on original design width
-
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            // Main container with proper aspect ratio
-            Container(
-              width: maxWidth,
-              constraints: BoxConstraints(
-                minHeight: 500, // Minimum height to prevent content crushing
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Back navigation text
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 22 * scaleFactor,
-                      top: 20,
-                      bottom: 40,
-                    ),
-                    child: Text(
-                      '← Admin Dashboard',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20 * (scaleFactor > 0.7 ? 1 : 0.9), // Slightly smaller font on very small screens
-                        fontFamily: 'Inter',
-                      ),
-                    ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: _dark,
+      builder: (context, color, child) {
+        return ValueListenableBuilder<double>(
+          valueListenable: _widthFactor,
+          builder: (context, factor, child) {
+            return Scaffold(
+              backgroundColor: _dark.value ? Colors.black : Colors.white,
+              appBar: AppBar(
+                title: const Text('Admin Dashboard'),
+                backgroundColor: _dark.value ? Colors.grey[900] : Colors.blue,
+                actions: [
+                  Switch(
+                    value: _dark.value,
+                    onChanged: (value) {
+                      _dark.value = value;
+                    },
                   ),
-
-                  // Menu items container
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16 * scaleFactor),
-                    child: Column(
-                      children: [
-                        _buildMenuButton('Manage Students', scaleFactor),
-                        SizedBox(height: 20 * scaleFactor),
-
-                        _buildMenuButton('Manage Teachers', scaleFactor),
-                        SizedBox(height: 20 * scaleFactor),
-
-                        _buildMenuButton('Forms', scaleFactor),
-                        SizedBox(height: 20 * scaleFactor),
-
-                        _buildMenuButton('Attendance', scaleFactor),
-                        SizedBox(height: 60 * scaleFactor), // Extra space at bottom
-                      ],
+                  DropdownButton<double>(
+                    value: _widthFactor.value,
+                    dropdownColor:
+                        _dark.value ? Colors.grey[800] : Colors.white,
+                    style: TextStyle(
+                      color: _dark.value ? Colors.white : Colors.black,
                     ),
+                    onChanged: (double? value) {
+                      if (value != null) {
+                        _widthFactor.value = value;
+                      }
+                    },
+                    items: const [
+                      DropdownMenuItem<double>(
+                        value: 0.5,
+                        child: Text('Size: 50%'),
+                      ),
+                      DropdownMenuItem<double>(
+                        value: 0.75,
+                        child: Text('Size: 75%'),
+                      ),
+                      DropdownMenuItem<double>(
+                        value: 1.0,
+                        child: Text('Size: 100%'),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
+              body: Center(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SizedBox(
+                      width:
+                          MediaQuery.of(context).size.width *
+                          _widthFactor.value,
+                      child: SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: constraints.minWidth,
+                            minHeight: 850,
+                          ),
+                          child: const Iphone1415ProMax38(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
 
-            // Background decorative elements
-            ..._buildBackgroundElements(scaleFactor, maxWidth),
-          ],
+class Iphone1415ProMax38 extends StatelessWidget {
+  const Iphone1415ProMax38({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+        final scaleFactor = screenWidth / 430;
+
+        return SizedBox(
+          width: screenWidth,
+          height: 850 * scaleFactor,
+          child: Stack(
+            children: [
+              // "← Admin Dashboard" text
+              Positioned(
+                left: 19 * scaleFactor,
+                top: 66 * scaleFactor,
+                child: Text(
+                  '← Admin Dashboard',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24 * scaleFactor,
+                    fontFamily: 'Inter',
+                    height: 0,
+                  ),
+                ),
+              ),
+
+              // Mark Attendance (Clickable)
+              Positioned(
+                left: 25 * scaleFactor,
+                top: 156 * scaleFactor,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => MarkAttendance()),
+                    );
+                  },
+                  child: Container(
+                    width: screenWidth - 50 * scaleFactor,
+                    height: 191 * scaleFactor,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3E5879),
+                      borderRadius: BorderRadius.circular(20 * scaleFactor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Mark Attendance',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24 * scaleFactor,
+                          fontFamily: 'Inter',
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Edit Attendance (Clickable)
+              Positioned(
+                left: 25 * scaleFactor,
+                top: 385 * scaleFactor,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => MarkAttendance()),
+                    );
+                  },
+                  child: Container(
+                    width: screenWidth - 50 * scaleFactor,
+                    height: 191 * scaleFactor,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3E5879),
+                      borderRadius: BorderRadius.circular(20 * scaleFactor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Edit Attendance',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24 * scaleFactor,
+                          fontFamily: 'Inter',
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Forms (Clickable)
+              Positioned(
+                left: 25 * scaleFactor,
+                top: 607 * scaleFactor,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => CreateForm()),
+                    );
+                  },
+                  child: Container(
+                    width: screenWidth - 50 * scaleFactor,
+                    height: 191 * scaleFactor,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3E5879),
+                      borderRadius: BorderRadius.circular(20 * scaleFactor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Forms',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24 * scaleFactor,
+                          fontFamily: 'Inter',
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Decorative rotated boxes (unchanged)
+              ...[
+                Positioned(
+                  left: 411.96 * scaleFactor,
+                  top: 22 * scaleFactor,
+                  child: Transform.rotate(
+                    angle: 0.47,
+                    child: _decorativeBox(scaleFactor),
+                  ),
+                ),
+                Positioned(
+                  left: -109.77 * scaleFactor,
+                  top: 829 * scaleFactor,
+                  child: Transform.rotate(
+                    angle: 0.11,
+                    child: _decorativeBox(scaleFactor),
+                  ),
+                ),
+                Positioned(
+                  left: -104.04 * scaleFactor,
+                  top: 674 * scaleFactor,
+                  child: Transform.rotate(
+                    angle: 0.47,
+                    child: _decorativeBox(scaleFactor),
+                  ),
+                ),
+                Positioned(
+                  left: 164.33 * scaleFactor,
+                  top: 867 * scaleFactor,
+                  child: Transform.rotate(
+                    angle: 0.94,
+                    child: _decorativeBox(scaleFactor),
+                  ),
+                ),
+                Positioned(
+                  left: 278 * scaleFactor,
+                  top: -49.34 * scaleFactor,
+                  child: Transform.rotate(
+                    angle: -0.32,
+                    child: _decorativeBox(scaleFactor),
+                  ),
+                ),
+                Positioned(
+                  left: 157 * scaleFactor,
+                  top: -104.02 * scaleFactor,
+                  child: Transform.rotate(
+                    angle: -0.35,
+                    child: _decorativeBox(scaleFactor),
+                  ),
+                ),
+              ],
+            ],
+          ),
         );
       },
     );
   }
 
-  // Helper method to build menu buttons
-  Widget _buildMenuButton(String text, double scaleFactor) {
-    return Container(
-      width: double.infinity,
-      height: 94 * (scaleFactor > 0.5 ? scaleFactor : 0.5), // Ensure minimum height
-      padding: EdgeInsets.symmetric(horizontal: 24 * scaleFactor),
-      decoration: ShapeDecoration(
-        color: Color(0xFF3E5879),
-        shape: RoundedRectangleBorder(
+  Widget _decorativeBox(double scaleFactor) {
+    return SizedBox(
+      width: 236 * scaleFactor,
+      height: 181 * scaleFactor,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: const Color(0xBC3E5879),
           borderRadius: BorderRadius.circular(20 * scaleFactor),
         ),
       ),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20 * (scaleFactor > 0.7 ? 1 : 0.9), // Slightly smaller font on very small screens
-            fontFamily: 'Inter',
-          ),
-        ),
-      ),
     );
-  }
-
-  // Helper method to build background decorative elements
-  List<Widget> _buildBackgroundElements(double scaleFactor, double containerWidth) {
-    // Create a list of positioned decorative shapes that won't cause overflow
-    return [
-      // Bottom right decorative element 1
-      Positioned(
-        right: -containerWidth * 0.1,
-        bottom: -containerWidth * 0.2,
-        child: Transform.rotate(
-          angle: 1.35,
-          child: Container(
-            width: containerWidth * 0.5,
-            height: containerWidth * 0.45,
-            decoration: ShapeDecoration(
-              color: Color(0xBC3E5879),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20 * scaleFactor),
-              ),
-            ),
-          ),
-        ),
-      ),
-      // Bottom right decorative element 2
-      Positioned(
-        right: -containerWidth * 0.3,
-        bottom: -containerWidth * 0.4,
-        child: Transform.rotate(
-          angle: 2.40,
-          child: Container(
-            width: containerWidth * 0.5,
-            height: containerWidth * 0.45,
-            decoration: ShapeDecoration(
-              color: Color(0xBC3E5879),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20 * scaleFactor),
-              ),
-            ),
-          ),
-        ),
-      ),
-      // Bottom left decorative element
-      Positioned(
-        left: -containerWidth * 0.2,
-        bottom: -containerWidth * 0.3,
-        child: Transform.rotate(
-          angle: 2.17,
-          child: Container(
-            width: containerWidth * 0.5,
-            height: containerWidth * 0.45,
-            decoration: ShapeDecoration(
-              color: Color(0xBC3E5879),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20 * scaleFactor),
-              ),
-            ),
-          ),
-        ),
-      ),
-      // Top right decorative element 1
-      Positioned(
-        right: -containerWidth * 0.1,
-        top: -containerWidth * 0.2,
-        child: Transform.rotate(
-          angle: 0.17,
-          child: Container(
-            width: containerWidth * 0.5,
-            height: containerWidth * 0.45,
-            decoration: ShapeDecoration(
-              color: Color(0xBC3E5879),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20 * scaleFactor),
-              ),
-            ),
-          ),
-        ),
-      ),
-      // Top right decorative element 2
-      Positioned(
-        right: -containerWidth * 0.3,
-        top: -containerWidth * 0.1,
-        child: Transform.rotate(
-          angle: 0.71,
-          child: Container(
-            width: containerWidth * 0.5,
-            height: containerWidth * 0.45,
-            decoration: ShapeDecoration(
-              color: Color(0xBC3E5879),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20 * scaleFactor),
-              ),
-            ),
-          ),
-        ),
-      ),
-      // Top right decorative element 3
-      Positioned(
-        right: -containerWidth * 0.2,
-        top: -containerWidth * 0.4,
-        child: Transform.rotate(
-          angle: 0.92,
-          child: Container(
-            width: containerWidth * 0.5,
-            height: containerWidth * 0.45,
-            decoration: ShapeDecoration(
-              color: Color(0xBC3E5879),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20 * scaleFactor),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ];
   }
 }
