@@ -1,0 +1,23 @@
+Folder PATH listing for volume OS
+Volume serial number is 8637-83A0
+lib
+|   main.dart
+|   
++---models
+|       user.dart
+|       
++---providers
+|       auth_provider.dart
+|       
++---screens
+|       admin_dashboard.dart
+|       attendance_marking_screen.dart
+|       faculty_dashboard.dart
+|       login_screen.dart
+|       student_dashboard.dart
+|       student_selection_screen.dart
+|       
++---services
+|       api_service.dart
+|       
+\---widgets
