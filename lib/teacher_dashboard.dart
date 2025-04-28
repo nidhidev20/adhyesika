@@ -25,26 +25,6 @@ class TeacherDashboard extends StatelessWidget {
                         _dark.value = value;
                       },
                     ),
-                    DropdownButton<double>(
-                      value: _widthFactor.value,
-                      onChanged: (value) {
-                        _widthFactor.value = value!;
-                      },
-                      items: [
-                        DropdownMenuItem<double>(
-                          value: 0.5,
-                          child: Text('Size: 50%'),
-                        ),
-                        DropdownMenuItem<double>(
-                          value: 0.75,
-                          child: Text('Size: 75%'),
-                        ),
-                        DropdownMenuItem<double>(
-                          value: 1.0,
-                          child: Text('Size: 100%'),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
                 body: SingleChildScrollView(

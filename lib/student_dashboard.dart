@@ -23,31 +23,12 @@ class StudentDashboard extends StatelessWidget {
                         _dark.value = value;
                       },
                     ),
-                    DropdownButton<double>(
-                      value: _widthFactor.value,
-                      onChanged: (value) {
-                        _widthFactor.value = value!;
-                      },
-                      items: [
-                        DropdownMenuItem<double>(
-                          value: 0.5,
-                          child: Text('Size: 50%'),
-                        ),
-                        DropdownMenuItem<double>(
-                          value: 0.75,
-                          child: Text('Size: 75%'),
-                        ),
-                        DropdownMenuItem<double>(
-                          value: 1.0,
-                          child: Text('Size: 100%'),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
                 body: Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width * _widthFactor.value,
+                    width:
+                        MediaQuery.of(context).size.width * _widthFactor.value,
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -343,19 +324,19 @@ class StudentProfileScreen extends StatelessWidget {
                       ],
                     ),
                     Column(
-                    children: [
+                      children: [
                         Text(
-                        '25',
+                          '25',
                           style: TextStyle(
-                          color: Colors.black,
+                            color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'Inter',
                           ),
                         ),
                         Text(
-                        'Absent',
+                          'Absent',
                           style: TextStyle(
-                          color: Color(0xFFFE2525),
+                            color: Color(0xFFFE2525),
                             fontSize: 16,
                             fontFamily: 'Inter',
                           ),
@@ -363,19 +344,19 @@ class StudentProfileScreen extends StatelessWidget {
                       ],
                     ),
                     Column(
-                    children: [
+                      children: [
                         Text(
-                        '0',
+                          '0',
                           style: TextStyle(
-                          color: Colors.black,
+                            color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'Inter',
                           ),
                         ),
                         Text(
-                        'No session',
+                          'No session',
                           style: TextStyle(
-                          color: Colors.black,
+                            color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'Inter',
                           ),
@@ -393,24 +374,30 @@ class StudentProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDecorativeContainer(double width, double height, double rotation) {
+  Widget _buildDecorativeContainer(
+    double width,
+    double height,
+    double rotation,
+  ) {
     return Transform(
-    transform: Matrix4.identity()
-        ..translate(0.0, 0.0)
-        ..rotateZ(rotation),
+      transform:
+          Matrix4.identity()
+            ..translate(0.0, 0.0)
+            ..rotateZ(rotation),
       child: Container(
-      width: width,
+        width: width,
         height: height,
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
-        color: Color(0xBC3E5879),
+          color: Color(0xBC3E5879),
           shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
       ),
     );
   }
+
   Widget _buildAttendanceIcon() {
     return Container(
       width: 30,

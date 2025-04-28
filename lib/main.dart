@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'admin_dashboard.dart';
-import 'teacher_dashboard.dart';
 import 'student_dashboard.dart';
+import 'teacher_dashboard.dart';
 
 void main() {
   runApp(FlutterApp());
@@ -29,7 +30,8 @@ class HomeScreen extends StatelessWidget {
   final ValueNotifier<bool> dark;
   final ValueNotifier<double> widthFactor;
 
-  const HomeScreen({Key? key, required this.dark, required this.widthFactor}) : super(key: key);
+  const HomeScreen({Key? key, required this.dark, required this.widthFactor})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,26 +53,6 @@ class HomeScreen extends StatelessWidget {
                       dark.value = value;
                     },
                   ),
-                  DropdownButton<double>(
-                    value: widthFactor.value,
-                    onChanged: (value) {
-                      widthFactor.value = value!;
-                    },
-                    items: [
-                      DropdownMenuItem<double>(
-                        value: 0.5,
-                        child: Text('Size: 50%'),
-                      ),
-                      DropdownMenuItem<double>(
-                        value: 0.75,
-                        child: Text('Size: 75%'),
-                      ),
-                      DropdownMenuItem<double>(
-                        value: 1.0,
-                        child: Text('Size: 100%'),
-                      ),
-                    ],
-                  ),
                 ],
               ),
               body: Center(
@@ -80,9 +62,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ResponsiveLoginScreen(isDarkMode: dark.value),
-                      ],
+                      children: [ResponsiveLoginScreen(isDarkMode: dark.value)],
                     ),
                   ),
                 ),
@@ -98,7 +78,8 @@ class HomeScreen extends StatelessWidget {
 class ResponsiveLoginScreen extends StatefulWidget {
   final bool isDarkMode;
 
-  const ResponsiveLoginScreen({Key? key, required this.isDarkMode}) : super(key: key);
+  const ResponsiveLoginScreen({Key? key, required this.isDarkMode})
+    : super(key: key);
 
   @override
   _ResponsiveLoginScreenState createState() => _ResponsiveLoginScreenState();
@@ -137,6 +118,7 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -144,7 +126,8 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
         // Calculate responsive dimensions
         final double maxWidth = constraints.maxWidth;
         final double containerWidth = maxWidth > 430 ? 430 : maxWidth;
-        final double containerHeight = containerWidth * (932/430); // Keep original aspect ratio
+        final double containerHeight =
+            containerWidth * (932 / 430); // Keep original aspect ratio
         final double scale = containerWidth / 430; // Scale factor
 
         return Container(
@@ -159,7 +142,7 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
                 height: containerHeight,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                    color: widget.isDarkMode ? Colors.black : Colors.white
+                  color: widget.isDarkMode ? Colors.black : Colors.white,
                 ),
               ),
 
@@ -317,7 +300,11 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
                         child: GestureDetector(
                           onTap: () {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Password reset functionality would go here')),
+                              SnackBar(
+                                content: Text(
+                                  'Password reset functionality would go here',
+                                ),
+                              ),
                             );
                           },
                           child: Text(
@@ -355,7 +342,10 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
                 left: 119 * scale,
                 top: -85.32 * scale,
                 child: Transform(
-                  transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(-0.52),
+                  transform:
+                      Matrix4.identity()
+                        ..translate(0.0, 0.0)
+                        ..rotateZ(-0.52),
                   child: Container(
                     width: 196 * scale,
                     height: 211 * scale,
@@ -403,7 +393,10 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
                 left: 228 * scale,
                 top: -42.85 * scale,
                 child: Transform(
-                  transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(-0.29),
+                  transform:
+                      Matrix4.identity()
+                        ..translate(0.0, 0.0)
+                        ..rotateZ(-0.29),
                   child: Container(
                     width: 199 * scale,
                     height: 198 * scale,
@@ -421,7 +414,10 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
                 left: 357 * scale,
                 top: 256.52 * scale,
                 child: Transform(
-                  transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(-0.96),
+                  transform:
+                      Matrix4.identity()
+                        ..translate(0.0, 0.0)
+                        ..rotateZ(-0.96),
                   child: Container(
                     width: 167.13 * scale,
                     height: 179.28 * scale,
@@ -439,7 +435,10 @@ class _ResponsiveLoginScreenState extends State<ResponsiveLoginScreen> {
                 left: 315 * scale,
                 top: 162.55 * scale,
                 child: Transform(
-                  transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(-0.96),
+                  transform:
+                      Matrix4.identity()
+                        ..translate(0.0, 0.0)
+                        ..rotateZ(-0.96),
                   child: Container(
                     width: 199 * scale,
                     height: 198 * scale,
@@ -499,10 +498,7 @@ class AdminScreen extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               'This is the admin dashboard',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black54,
-              ),
+              style: TextStyle(fontSize: 18, color: Colors.black54),
             ),
             SizedBox(height: 40),
             ElevatedButton(
@@ -516,10 +512,7 @@ class AdminScreen extends StatelessWidget {
                 backgroundColor: Color(0xFF3E5879),
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
               ),
-              child: Text(
-                'continue',
-                style: TextStyle(fontSize: 18),
-              ),
+              child: Text('continue', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),
@@ -527,6 +520,7 @@ class AdminScreen extends StatelessWidget {
     );
   }
 }
+
 // Teacher Screen
 class TeacherScreen extends StatelessWidget {
   @override
@@ -540,11 +534,7 @@ class TeacherScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.school,
-              size: 100,
-              color: Color(0xFF5F99AE),
-            ),
+            Icon(Icons.school, size: 100, color: Color(0xFF5F99AE)),
             SizedBox(height: 20),
             Text(
               'Welcome, Teacher!',
@@ -557,10 +547,7 @@ class TeacherScreen extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               'This is the teacher portal',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black54,
-              ),
+              style: TextStyle(fontSize: 18, color: Colors.black54),
             ),
             SizedBox(height: 40),
             ElevatedButton(
@@ -574,10 +561,7 @@ class TeacherScreen extends StatelessWidget {
                 backgroundColor: Color(0xFF3E5879),
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
               ),
-              child: Text(
-                'continue',
-                style: TextStyle(fontSize: 18),
-              ),
+              child: Text('continue', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),
@@ -599,11 +583,7 @@ class StudentScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.person,
-              size: 100,
-              color: Color(0xFF3E5879),
-            ),
+            Icon(Icons.person, size: 100, color: Color(0xFF3E5879)),
             SizedBox(height: 20),
             Text(
               'Welcome, Student!',
@@ -616,10 +596,7 @@ class StudentScreen extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               'This is the student portal',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black54,
-              ),
+              style: TextStyle(fontSize: 18, color: Colors.black54),
             ),
             SizedBox(height: 40),
             ElevatedButton(
@@ -633,10 +610,7 @@ class StudentScreen extends StatelessWidget {
                 backgroundColor: Color(0xFF3E5879),
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
               ),
-              child: Text(
-                'continue',
-                style: TextStyle(fontSize: 18),
-              ),
+              child: Text('continue', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),
